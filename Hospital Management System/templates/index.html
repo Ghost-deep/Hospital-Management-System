@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - Hospital Management{% endblock %}
+
+{% block content %}
+    <h1>Welcome to the Hospital Management System</h1>
+    <p>Select an option from the navigation menu to get started.</p>
+    <div class="quick-actions">
+        <a href="{{ url_for('add_patient') }}" class="button">Add New Patient</a>
+        <a href="{{ url_for('add_doctor') }}" class="button">Add New Doctor</a>
+    </div>
+{% endblock %}

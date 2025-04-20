@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Patients List{% endblock %}
+
+{% block content %}
+    <h1>Patients</h1>
+    <a href="{{ url_for('add_patient') }}" class="button add-button">Add New Patient</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Date of Birth</th>
+                <th>Gender</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patients %}
+            <tr>
+                <td>{{ patient.PatientID }}</td>
+                <td>{{ patient.FirstName }}</td>
+                <td>{{ patient.LastName }}</td>
+                <td>{{ patient.DateOfBirth.strftime('%Y-%m-%d') if patient.DateOfBirth else 'N/A' }}</td>
+                <td>{{ patient.Gender }}</td>
+                <td>
+                    <a href="{{ url_for('view_patient', patient_id=patient.PatientID) }}" class="button view-button">View Details</a>
+                    <!-- Add Edit/Delete buttons later -->
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6">No patients found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

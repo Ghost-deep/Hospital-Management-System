@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Doctor Details - {{ doctor.FirstName }} {{ doctor.LastName }}{% endblock %}
+
+{% block content %}
+    <h1>Doctor Details: {{ doctor.FirstName }} {{ doctor.LastName }}</h1>
+    <a href="{{ url_for('list_doctors') }}" class="button back-button">Back to Doctors List</a>
+
+    <div class="details-section doctor-info">
+        <h2>Doctor Information</h2>
+        <p><strong>Doctor ID:</strong> {{ doctor.DoctorID }}</p>
+        <p><strong>Name:</strong> {{ doctor.FirstName }} {{ doctor.LastName }}</p>
+        <p><strong>Specialization:</strong> {{ doctor.Specialization }}</p>
+        <p><strong>Contact Number:</strong> {{ doctor.ContactNumber if doctor.ContactNumber else 'N/A' }}</p>
+        <p><strong>Email:</strong> {{ doctor.Email if doctor.Email else 'N/A' }}</p>
+        <p><strong>Address:</strong> {{ doctor.Address if doctor.Address else 'N/A' }}</p>
+        <!-- Add Edit Doctor Link Here (Optional for future) -->
+        <!-- <a href="#" class="button">Edit Doctor</a> -->
+    </div>
+
+    <hr>
+
+    <div class="details-section treatments-provided">
+        <h2>Treatments Provided</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Treatment Date</th>
+                    <th>Patient</th>
+                    <th>Diagnosis</th>
+                    <th>Follow-Up Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for treatment in treatments %}
+                <tr>
+                    <td>{{ treatment.TreatmentDate.strftime('%Y-%m-%d') if treatment.TreatmentDate else 'N/A' }}</td>
+                    <td>
+                        <a href="{{ url_for('view_patient', patient_id=treatment.PatientID) }}">
+                            {{ treatment.PatientFirstName }} {{ treatment.PatientLastName }} (ID: {{ treatment.PatientID }})
+                        </a>
+                    </td>
+                    <td>{{ treatment.Diagnosis if treatment.Diagnosis else 'N/A' }}</td>
+                    <td>{{ treatment.FollowUpDate.strftime('%Y-%m-%d') if treatment.FollowUpDate else 'N/A' }}</td>
+                    <td>
+                         <a href="{{ url_for('view_patient', patient_id=treatment.PatientID) }}#treatment-{{ treatment.TreatmentID }}" class="button view-button">View on Patient Record</a>
+                         {# You might want a link that jumps directly to the treatment on the patient page #}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">No treatment records found for this doctor.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
